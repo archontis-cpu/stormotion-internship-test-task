@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,7 +24,7 @@ type AppBarHandlers = {
   handleMenu(): void
 }
 
-export const ButtonAppBar: React.FC<AppBarHandlers> = ({handleMenu}) => {
+export const ButtonAppBar: React.FC<AppBarHandlers> = ({handleMenu}): JSX.Element => {
 
   const classes = useStyles();
 
@@ -53,4 +54,8 @@ export const ButtonAppBar: React.FC<AppBarHandlers> = ({handleMenu}) => {
       </AppBar>
     </div>
   );
+};
+
+ButtonAppBar.propTypes = {
+  handleMenu: PropTypes.func.isRequired
 };

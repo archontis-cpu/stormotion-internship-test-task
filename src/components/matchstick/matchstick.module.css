@@ -1,0 +1,15 @@
+.Matchstick {
+  height: 40px;
+  width: 40px;
+  padding: 10px;
+}
+
+.Matchstick > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+}
+
+/*.Matchstick > img:hover {*/
+/*  background: forestgreen;*/
+/*}*/

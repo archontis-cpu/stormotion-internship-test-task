@@ -1,0 +1,11 @@
+.ScoreBoard {
+  margin-top: 20px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Typography {
+  display: flex;
+  justify-content: space-between;
+}
