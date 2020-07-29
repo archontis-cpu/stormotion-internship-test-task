@@ -1,25 +1,68 @@
-interface GameState {
-  'human-turns-first': boolean,
-  'matches-per-turn': number,
-  'initial-matches': number,
-}
-
 interface SettingsGameAction {
   type: string,
-  payload: boolean | number,
+  payload: number,
 }
 
-const defaultGameState: GameState = {
-  'human-turns-first': true,
-  'matches-per-turn': 3,
-  'initial-matches': 25,
+interface GameSettings {
+  AI_TURNS_FIRST: boolean | number
+  MAX_MATCHES_PER_TURN: number
+  INITIAL_MATCHES_COUNT: number
+}
+
+export interface GameState {
+  SETTINGS: GameSettings
+  AI_SCORE: number
+  PERSON_SCORE: number
+  MATCHES_LEFT: number
+}
+
+export const defaultGameState: GameState = {
+  SETTINGS: {
+    AI_TURNS_FIRST: false,
+    MAX_MATCHES_PER_TURN: 3,
+    INITIAL_MATCHES_COUNT: 25,
+  },
+  AI_SCORE: 0,
+  PERSON_SCORE: 0,
+  MATCHES_LEFT: 25,
 };
 
 export const gameReducer = (
   state: GameState = defaultGameState,
-  action: SettingsGameAction): GameState => {
+  action: SettingsGameAction
+): GameState => {
 
   switch (action.type) {
+  case "HUMAN_TURNED":
+    return {
+      ...state,
+      PERSON_SCORE: state.PERSON_SCORE + action.payload,
+      MATCHES_LEFT: state.MATCHES_LEFT - action.payload,
+    };
+  case "CHANGE_WHO_TURNS_FIRST":
+    return {
+      ...state,
+      SETTINGS: {
+        ...state.SETTINGS,
+        "AI_TURNS_FIRST": action.payload,
+      }
+    };
+  case "CHANGE_MAX_MATCHES_PER_TURN":
+    return {
+      ...state,
+      SETTINGS: {
+        ...state.SETTINGS,
+        "MAX_MATCHES_PER_TURN": action.payload
+      }
+    };
+  case "CHANGE_INITIAL_MATCHES_COUNT":
+    return {
+      ...state,
+      SETTINGS: {
+        ...state.SETTINGS,
+        "INITIAL_MATCHES_COUNT": action.payload
+      }
+    };
   default:
     return state;
   }
