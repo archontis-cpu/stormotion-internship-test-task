@@ -1,0 +1,8 @@
+body {
+  margin: 0;
+}
+
+.App {
+  max-width: 650px;
+  margin: 0 auto;
+}

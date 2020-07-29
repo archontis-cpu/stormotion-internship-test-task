@@ -3,10 +3,11 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 import classes from './switch.module.css';
 
-export default function MenuSwitch() {
+export const MenuSwitch: React.FC = () => {
+
   const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
+    checkedA: false,
+    checkedB: false,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,4 +28,4 @@ export default function MenuSwitch() {
       />
     </div>
   );
-}
+};

@@ -1,54 +1,56 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useReducer} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles({
-  root: {
-    width: '90vw',
-  },
-});
-
-function valuetext(value: number) {
-  return `${value}°C`;
-}
-
-interface Slider{
+interface SliderType {
   type: string
 }
 
-export default function DiscreteSlider({ type }: Slider) {
-  let sliderTitle;
-  let defaultValue;
-  let step;
-  let min;
-  let max;
+export const SettingsMenuSlider: React.FC<SliderType> = ({ type }) => {
 
-  if (type === 'max-quantity') {
-    sliderTitle = 'Max matches quantity can be taken per turn';
-    defaultValue = 3;
-    step = 1;
-    min = 2;
-    max = 10;
-  } else if (type === 'total-quantity') {
-    sliderTitle = 'Initial matches quantity';
-    defaultValue = 25;
-    step = 2;
-    min = 3;
-    max = 99;
-  }
+  const getSliderPropsByType = () => {
+    if (type === 'max-quantity') {
+      return {
+        sliderTitle: 'Max matches quantity can be taken per turn',
+        defaultValue: 3,
+        step: 1,
+        min: 2,
+        max: 10,
+      };
+    }
 
-  const classes = useStyles();
+    return {
+      sliderTitle: 'Initial matches quantity',
+      defaultValue: 25,
+      step: 2,
+      min: 3,
+      max: 99,
+    };
+  };
+
+  const {
+    sliderTitle,
+    defaultValue,
+    step,
+    min,
+    max
+  } = getSliderPropsByType();
+
+
 
   return (
-    <div className={classes.root}>
+    <div style={{
+      width: '100%',
+      maxWidth: 650,
+      padding: "0 2.5vw 0 2.5vw",
+      boxSizing: "border-box",
+    }}>
       <Typography gutterBottom>
         {sliderTitle}
       </Typography>
       <Slider
         defaultValue={defaultValue}
-        getAriaValueText={valuetext}
         step={step}
         min={min}
         max={max}
@@ -56,8 +58,8 @@ export default function DiscreteSlider({ type }: Slider) {
       />
     </div>
   );
-}
+};
 
-DiscreteSlider.propTypes = {
-  type: PropTypes.string
+SettingsMenuSlider.propTypes = {
+  type: PropTypes.string.isRequired,
 };

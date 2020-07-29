@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu } from "./components/menu/menu";
 import { Game } from "./components/game/game";
 import { ButtonAppBar } from "./components/app-bar/app-bar";
+import "./App.css";
 const App: React.FC = () => {
 
   const [display, setDisplay] = useState(false);
@@ -12,7 +13,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <ButtonAppBar handleMenu={handleMenuClick} />
+      <ButtonAppBar handleMenu={handleMenuClick} icon={display ? 'close' : 'open'}/>
       { display ? <Menu /> : <Game /> }
     </div>
   );
