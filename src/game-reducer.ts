@@ -14,6 +14,7 @@ export interface GameState {
   AI_SCORE: number
   PERSON_SCORE: number
   MATCHES_LEFT: number
+  RESULT: number
 }
 
 export const defaultGameState: GameState = {
@@ -25,6 +26,7 @@ export const defaultGameState: GameState = {
   AI_SCORE: 0,
   PERSON_SCORE: 0,
   MATCHES_LEFT: 25,
+  RESULT: 0,
 };
 
 export const gameReducer = (
@@ -33,6 +35,12 @@ export const gameReducer = (
 ): GameState => {
 
   switch (action.type) {
+  case "AI_TURNED":
+    return {
+      ...state,
+      AI_SCORE: state.AI_SCORE + action.payload,
+      MATCHES_LEFT: state.MATCHES_LEFT - action.payload,
+    };
   case "HUMAN_TURNED":
     return {
       ...state,
@@ -61,8 +69,16 @@ export const gameReducer = (
       SETTINGS: {
         ...state.SETTINGS,
         "INITIAL_MATCHES_COUNT": action.payload
-      }
+      },
+      "MATCHES_LEFT": action.payload
     };
+  case "GAME_OVER":
+    return {
+      ...state,
+      "RESULT": action.payload,
+    };
+  case "DEFAULT":
+    return {...state};
   default:
     return state;
   }
