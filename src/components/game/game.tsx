@@ -17,40 +17,41 @@ const getRandomInt = (min:number, max:number) => {
 
 export const Game: React.FC = () => {
   const [sliderValue, setSliderValue] = useState(initialSliderState);
+
   //@ts-ignore
   const { state, dispatch } = useContext(Context);
 
   const humanTurnHandler = (event:any) => {
+
     event.preventDefault();
+
     dispatch({type: "HUMAN_TURNED", payload: sliderValue});
 
     if (sliderValue === state.MATCHES_LEFT) {
       const result = state.AI_SCORE % 2 === 0 ? 0 : 1;
       dispatch({type: "GAME_OVER", payload: result});
     } else {
-      // TODO: check for MATCHES_LEFT, and then leave game or call AITurnHandler
-      AITurnHandler();
+      const result = state.AI_SCORE % 2 === 0 ? 0 : 1;
+      dispatch({type: "GAME_OVER", payload: result});
     }
+    console.log('slider', sliderValue);
+    AITurnHandler();
   };
 
   const AITurnHandler = () => {
     let turn: number;
 
-    if (state.MATCHES_LEFT === 1) {
-      turn = 1;
-    } else if (state.MATCHES_LEFT > state.SETTINGS.MAX_MATCHES_PER_TURN) {
-      turn = getRandomInt(1, state.SETTINGS.MAX_MATCHES_PER_TURN);
-    } else {
-      if (state.PERSON_SCORE % 2 === 0 && state.MATCHES_LEFT >= 2) {
-        turn = state.MATCHES_LEFT - 1;
-      } else {
-        turn = state.MATCHES_LEFT;
-      }
-    }
-
-    if (turn === state.MATCHES_LEFT) {
+    const current = state.MATCHES_LEFT - sliderValue;
+    if (current === 0) {
       const result = state.AI_SCORE % 2 === 0 ? 0 : 1;
       dispatch({type: "GAME_OVER", payload: result});
+      return;
+    } else if (state.MATCHES_LEFT - sliderValue === 0) {
+      turn = 1;
+    } else if (current < state.SETTINGS.MAX_MATCHES_PER_TURN) {
+      turn = current;
+    } else {
+      turn = getRandomInt(1, state.SETTINGS.MAX_MATCHES_PER_TURN);
     }
 
     dispatch({type: "AI_TURNED", payload: turn});
@@ -83,6 +84,7 @@ export const Game: React.FC = () => {
             defaultValue={1}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
+            value={sliderValue}
             step={1}
             min={1}
             max={ sliderMaxValueHelper() }
