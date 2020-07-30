@@ -34,7 +34,6 @@ export const Game: React.FC = () => {
       const result = state.AI_SCORE % 2 === 0 ? 0 : 1;
       dispatch({type: "GAME_OVER", payload: result});
     }
-    console.log('slider', sliderValue);
     AITurnHandler();
   };
 
