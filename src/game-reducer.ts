@@ -77,6 +77,14 @@ export const gameReducer = (
       ...state,
       "RESULT": action.payload,
     };
+  case "RESTART":
+    return {
+      ...state,
+      AI_SCORE: 0,
+      PERSON_SCORE: 0,
+      MATCHES_LEFT: state.SETTINGS.INITIAL_MATCHES_COUNT,
+      RESULT: 0,
+    };
   case "DEFAULT":
     return {...state};
   default:

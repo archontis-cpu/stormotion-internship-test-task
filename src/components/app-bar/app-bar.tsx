@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import {Context} from "../../App";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +32,13 @@ type AppBarProps = {
 export const ButtonAppBar: React.FC<AppBarProps> = ({handleMenu, icon}): JSX.Element => {
 
   const classes = useStyles();
+  //@ts-ignore
+  const {state, dispatch} = useContext(Context);
+
+  const restartGame = (event:any) => {
+    event.preventDefault();
+    dispatch({type: "RESTART"});
+  };
 
   return (
     <div className={classes.root}>
@@ -54,6 +62,7 @@ export const ButtonAppBar: React.FC<AppBarProps> = ({handleMenu, icon}): JSX.Ele
           </Typography>
           <IconButton
             color="inherit"
+            onClick={event => restartGame(event)}
             style={{
               margin: 0,
               height: 50,
